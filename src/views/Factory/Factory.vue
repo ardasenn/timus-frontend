@@ -18,5 +18,6 @@ const showFactoryList = ref(true);
 const toggleComponents = () => {
     showFactoryList.value = !showFactoryList.value;
 };
+
 </script>
   

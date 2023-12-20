@@ -5,13 +5,10 @@ const routes = [
   {
     path: "/",
     component: () => import("@/views/Login.vue"),
-    children: [
-      {
-        path: "/Signup",
-        name: "Signup",
-        component: () => import("@/views/Signup.vue"),
-      },
-    ],
+  },
+  {
+    path: "/signup",
+    component: () => import("@/views/Signup.vue"),
   },
   {
     path: "/home",
@@ -28,6 +25,12 @@ const routes = [
         name: "Factory",
         meta: { requiresAuth: true },
         component: () => import("@/views/Factory/Factory.vue"),
+      },
+      {
+        path: "/factory/insert",
+        name: "FactoryInsert",
+        meta: { requiresAuth: true },
+        component: () => import("@/views/Factory/AddColumnToFactory.vue"),
       },
       {
         path: "/factory/Update/:id",
@@ -72,6 +75,12 @@ const routes = [
         component: () => import("@/views/FactoryDetail/FactoryDetail.vue"),
       },
       {
+        path: "/factory-detail/insert",
+        name: "FactoryDetailInsert",
+        meta: { requiresAuth: true },
+        component: () => import("@/views/Factory/AddColumnToFactoryDetail.vue"),
+      },
+      {
         path: "/factory-detail/Update/:id",
         name: "FactoryDetailUpdate",
         meta: { requiresAuth: true },
@@ -94,8 +103,18 @@ router.beforeEach((to, from, next) => {
     to.matched.some((record) => record.meta.requiresAuth) &&
     !isAuthenticated
   ) {
+    console.log(
+      "🚀 ~ file: ife girdi",
+      to.matched.some((record) => record.meta.requiresAuth),
+      isAuthenticated
+    );
     next("/");
   } else {
+    console.log(
+      "🚀 ~ file: else girdi",
+      to.matched.some((record) => record.meta.requiresAuth),
+      isAuthenticated
+    );
     next();
   }
 });

@@ -48,6 +48,22 @@
           <v-list-item-title>FactoryDetail</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+      <v-list-item to="/factory/insert">
+        <v-list-item-icon>
+          <v-icon>mdi-factory</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Add Colum to Factory</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item to="/factory-detail/insert">
+        <v-list-item-icon>
+          <v-icon>mdi-factory</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Add Colum to Factory</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -77,6 +93,7 @@ export default {
     },
     logout() {
       store.setAuthenticate(false)
+      localStorage.removeItem("userName")
       this.$router.push('/');
     }
   },

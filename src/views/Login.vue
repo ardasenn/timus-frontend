@@ -86,7 +86,7 @@ export default {
         });
     },
     goToSignUp() {
-      this.$router.push('/signup');
+      this.$router.push('/Signup');
     },
   },
 };
