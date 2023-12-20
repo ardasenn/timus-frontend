@@ -5,7 +5,7 @@
     <v-toolbar-title class="ml-4">
       <v-icon>mdi-flash</v-icon> <!-- Kendi enerji ile ilgili ikonunuzu ekleyin -->
     </v-toolbar-title>
-    <v-btn to="/users" text color="white">Users</v-btn>
+    <v-btn to="/user" text color="white">User</v-btn>
     <v-btn to="/factory" text color="white">Factory</v-btn>
     <v-btn to="/factory-detail" text color="white">FactoryDetail</v-btn>
 
@@ -21,12 +21,12 @@
   <!-- Drawer içeriği -->
   <v-navigation-drawer v-model="drawer" app>
     <v-list>
-      <v-list-item to="/users">
+      <v-list-item to="/user">
         <v-list-item-icon>
           <v-icon>mdi-account</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Users</v-list-item-title>
+          <v-list-item-title>User</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-list-item to="/factory">

@@ -1,23 +1,26 @@
 <template>
-    <v-card flat title="Factories">
+    <v-card flat title="Users">
         <template v-slot:text>
             <v-text-field v-model="search" label="Search" prepend-inner-icon="mdi-magnify" single-line variant="outlined"
                 hide-details></v-text-field>
         </template>
-        <v-data-table :headers="headers" :items="factories" :search="search">
+        <v-data-table :headers="headers" :items="users" :search="search">
             <template v-slot:item.id="{ item }">
                 <v-row justify="center">
-                    <v-btn @click="showDetails(item)" color="green">Details</v-btn>
-                    <v-btn @click="editFactory(item)" color="blue">Edit</v-btn>
-                    <v-btn @click="deleteFactory(item)" color="red">Delete</v-btn>
+                    <v-btn @click="editUser(item)" color="blue">Edit</v-btn>
+                    <v-btn @click="deleteUser(item)" color="red">Delete</v-btn>
                 </v-row>
             </template>
         </v-data-table>
+        <v-snackbar v-model="notification.show" :color="notification.color">
+            {{ notification.message }}
+            <v-btn text @click="notification.show = false">Close</v-btn>
+        </v-snackbar>
     </v-card>
 </template>
   
 <script>
-import api from "../services/api";
+import api from "@/services/api";
 
 export default {
     data() {
@@ -25,44 +28,46 @@ export default {
             search: '',
             headers: [
                 { align: 'start', key: 'name', sortable: false, title: 'Name' },
-                { key: 'employeecount', title: 'Employee Count' },
-                { key: 'isfree', title: 'Is Free' },
-                { key: 'subscription', title: 'Subscription' },
-                { key: 'endofsubscription', title: 'End of Subscription' },
+                { key: 'role', title: 'Role' },
+                { key: 'email', title: 'Email' },
                 { key: "id", title: "Operations" },
             ],
-            factories: [],
+            users: [],
+            notification: {
+                show: false,
+                message: '',
+                color: '',
+            },
         };
     },
     methods: {
-        showDetails(item) {
+        editUser(item) {
             this.$router.push({
-                name: 'Details',
+                name: 'UserUpdate',
                 params: { id: item.id },
             });
         },
-        editFactory(item) {
-            this.$router.push({
-                name: 'FactoryUpdate',
-                params: { id: item.id },
-            });
-        },
-        deleteFactory(item) {
-            api.delete(`/factory/${item.id}`).then(res => {
+        deleteUser(item) {
+            api.delete(`/User/${item.id}`).then(res => {
                 this.showNotification(res.data, "succes")
                 setTimeout(() => {
-                    this.$router.push('/factory');
+                    this.$router.push('/User');
                 }, 3000)
             }).catch((err) => {
                 this.showNotification(`delete failed : ${err.response.data.message}`)
                 console.log(err.response.data.message)
             })
         },
+        showNotification(message, color = 'error') {
+            this.notification.show = true;
+            this.notification.message = message;
+            this.notification.color = color;
+        },
     },
     created() {
-        api.get('/factory')
+        api.get('/user')
             .then(response => {
-                this.factories = response.data;
+                this.users = response.data.map(usr => ({ id: usr._id, name: usr._source.name, email: usr._source.email, role: usr._source.role }))
             })
             .catch(error => {
                 console.error('Error fetching data:', error);

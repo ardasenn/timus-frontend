@@ -27,7 +27,7 @@
                 {{ notification.message }}
                 <v-btn text @click="notification.show = false">Close</v-btn>
             </v-snackbar>
-            <v-btn @click="create" color="blue">Add Factory</v-btn>
+            <v-btn @click="update" color="blue">Update Factory</v-btn>
         </v-form>
     </v-container>
 </template>
@@ -52,6 +52,19 @@ export default {
             },
         };
     },
+    created() {
+        const id = this.$route.params.id;
+        api.get(`/factory/${id}`).then(res => {
+            const data = res.data[0]
+
+            this.name = data.name
+            this.employeecount = `${data.employeecount}`
+            this.isfree = data.isfree
+        }).catch(err => {
+            this.showNotification(`Data failed : ${err.response.data.message}`)
+            console.log(err.response.data.message)
+        })
+    },
     methods: {
         formatDate(date) {
             const formattedDate = new Date(date);
@@ -62,7 +75,7 @@ export default {
             this.notification.message = message;
             this.notification.color = color;
         },
-        create() {
+        update() {
             const data = {
                 name: this.name,
                 employeeCount: +this.employeecount,
@@ -70,26 +83,25 @@ export default {
                 subscription: this.formatDate(this.subscription),
                 endOfSubscription: this.formatDate(this.endofsubscription)
             }
-            console.log(data, "data")
-            api.post("/factory", data).then(res => {
+
+            api.put(`/factory/${this.$route.params.id}`, data).then(res => {
                 this.showNotification(res.data, "succes")
                 setTimeout(() => {
                     this.$router.push('/factory');
                 }, 3000)
 
             }).catch((err) => {
-                this.showNotification(`Create failed : ${err.response.data.message}`)
+                this.showNotification(`Update failed : ${err.response.data.message}`)
                 console.log(err.response.data.message)
             })
         },
     },
 };
 </script>
-  
+
 <style scoped>
 .custom-datepicker {
     width: 100%;
     max-width: 300px;
 }
 </style>
-  

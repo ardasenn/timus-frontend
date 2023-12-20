@@ -9,26 +9,20 @@ const routes = [
       {
         path: "/Signup",
         name: "Signup",
-        // route level code-splitting
-        // this generates a separate chunk (Home-[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
+
         component: () => import("@/views/Signup.vue"),
       },
       {
         path: "/Home",
         name: "Home",
-        // route level code-splitting
-        // this generates a separate chunk (Home-[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
+
         component: () => import("@/views/Home.vue"),
       },
       {
-        path: "/Factory",
-        name: "Factory",
-        // route level code-splitting
-        // this generates a separate chunk (Home-[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import("@/views/Factory.vue"),
+        path: "/Factory-Detail/",
+        name: "FactorDetail",
+
+        component: () => import("@/views/FactoryDetail/FactoryDetail.vue"),
       },
     ],
   },
@@ -38,10 +32,69 @@ const routes = [
       {
         path: "",
         name: "Login",
-        // route level code-splitting
-        // this generates a separate chunk (Home-[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
+
         component: () => import("@/views/Login.vue"),
+      },
+    ],
+  },
+  {
+    path: "/factory",
+    component: () => import("@/layouts/default/Default.vue"),
+    children: [
+      {
+        path: "",
+        name: "Factory",
+
+        component: () => import("@/views/Factory/Factory.vue"),
+      },
+      {
+        path: "/factory/Update/:id",
+        name: "FactoryUpdate",
+
+        component: () => import("@/views/Factory/FactoryUpdate.vue"),
+      },
+      {
+        path: "/factory/Details/:id",
+        name: "Details",
+
+        component: () => import("@/views/Factory/Details.vue"),
+      },
+    ],
+  },
+  {
+    path: "/user",
+    component: () => import("@/layouts/default/Default.vue"),
+    children: [
+      {
+        path: "",
+        name: "User",
+
+        component: () => import("@/views/User/User.vue"),
+      },
+      {
+        path: "/User/Update/:id",
+        name: "UserUpdate",
+
+        component: () => import("@/views/User/UserUpdate.vue"),
+      },
+    ],
+  },
+  {
+    path: "/factory-detail",
+    component: () => import("@/layouts/default/Default.vue"),
+    children: [
+      {
+        path: "",
+        name: "FactoryDetail",
+
+        component: () => import("@/views/FactoryDetail/FactoryDetail.vue"),
+      },
+      {
+        path: "/factory-detail/Update/:id",
+        name: "FactoryDetailUpdate",
+
+        component: () =>
+          import("@/views/FactoryDetail/FactoryDetailUpdate.vue"),
       },
     ],
   },
