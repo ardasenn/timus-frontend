@@ -21,7 +21,8 @@
   
 <script>
 import api from "@/services/api";
-
+import { useAppStore } from "@/store/app"
+const store = useAppStore();
 export default {
     data() {
         return {
@@ -54,6 +55,10 @@ export default {
                     this.$router.push('/User');
                 }, 3000)
             }).catch((err) => {
+                if (err.response.status === 401) {
+                    store.setAuthenticate(false);
+                    this.$router.push('/');
+                }
                 this.showNotification(`delete failed : ${err.response.data.message}`)
                 console.log(err.response.data.message)
             })
@@ -70,6 +75,10 @@ export default {
                 this.users = response.data.map(usr => ({ id: usr._id, name: usr._source.name, email: usr._source.email, role: usr._source.role }))
             })
             .catch(error => {
+                if (error.response.status === 401) {
+                    store.setAuthenticate(false);
+                    this.$router.push('/');
+                }
                 console.error('Error fetching data:', error);
             });
     },

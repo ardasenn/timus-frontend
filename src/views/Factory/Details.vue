@@ -21,7 +21,8 @@
   
 <script>
 import api from "../../services/api";
-
+import { useAppStore } from "@/store/app"
+const store = useAppStore();
 export default {
     data() {
         return {
@@ -55,6 +56,10 @@ export default {
                     this.$router.push('/factory');
                 }, 3000)
             }).catch((err) => {
+                if (err.response.status === 401) {
+                    store.setAuthenticate(false);
+                    this.$router.push('/');
+                }
                 this.showNotification(`delete failed : ${err}`)
             })
         },

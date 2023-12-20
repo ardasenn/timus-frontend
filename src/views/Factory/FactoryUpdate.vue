@@ -34,7 +34,8 @@
   
 <script>
 import api from '@/services/api';
-
+import { useAppStore } from "@/store/app"
+const store = useAppStore();
 
 export default {
     data() {
@@ -61,6 +62,10 @@ export default {
             this.employeecount = `${data.employeecount}`
             this.isfree = data.isfree
         }).catch(err => {
+            if (err.response.status === 401) {
+                store.setAuthenticate(false);
+                this.$router.push('/');
+            }
             this.showNotification(`Data failed : ${err.response.data.message}`)
             console.log(err.response.data.message)
         })
@@ -91,6 +96,10 @@ export default {
                 }, 3000)
 
             }).catch((err) => {
+                if (err.response.status === 401) {
+                    store.setAuthenticate(false);
+                    this.$router.push('/');
+                }
                 this.showNotification(`Update failed : ${err.response.data.message}`)
                 console.log(err.response.data.message)
             })

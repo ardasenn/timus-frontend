@@ -17,6 +17,9 @@
     <v-btn>
       {{ userName }}
     </v-btn>
+    <v-btn @click="logout">
+      Log Out
+    </v-btn>
   </v-app-bar>
   <!-- Drawer içeriği -->
   <v-navigation-drawer v-model="drawer" app>
@@ -51,7 +54,6 @@
 
 <script>
 import { useAppStore } from "@/store/app"
-
 const store = useAppStore();
 export default {
   data() {
@@ -72,6 +74,10 @@ export default {
   methods: {
     toggleDrawer() {
       this.drawer = !this.drawer;
+    },
+    logout() {
+      store.setAuthenticate(false)
+      this.$router.push('/');
     }
   },
 };

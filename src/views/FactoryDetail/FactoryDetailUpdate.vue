@@ -35,7 +35,8 @@
   
 <script>
 import api from '@/services/api';
-
+import { useAppStore } from "@/store/app"
+const store = useAppStore();
 
 export default {
     data() {
@@ -60,6 +61,10 @@ export default {
             this.factoryOptions = res.data.map(factory => { return { props: { subtitle: factory.name }, title: factory.id } });
 
         }).catch((err) => {
+            if (err.response.status === 401) {
+                store.setAuthenticate(false);
+                this.$router.push('/');
+            }
             this.showNotification(`Get failed : ${err.response.data.message}`)
             console.log(err.response.data.message)
         })
@@ -73,6 +78,10 @@ export default {
             this.department = data.department
             this.factoryId = data.factoryid
         }).catch(err => {
+            if (err.response.status === 401) {
+                store.setAuthenticate(false);
+                this.$router.push('/');
+            }
             this.showNotification(`Data failed : ${err.response.data.message}`)
             console.log(err.response.data.message)
         })
@@ -104,6 +113,10 @@ export default {
                 }, 3000)
 
             }).catch((err) => {
+                if (err.response.status === 401) {
+                    store.setAuthenticate(false);
+                    this.$router.push('/');
+                }
                 this.showNotification(`Update failed : ${err.response.data.message}`)
                 console.log(err.response.data.message)
             })

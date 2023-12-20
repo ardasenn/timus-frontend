@@ -31,7 +31,8 @@
   
 <script>
 import api from '@/services/api';
-
+import { useAppStore } from "@/store/app"
+const store = useAppStore();
 export default {
     data() {
         return {
@@ -56,6 +57,10 @@ export default {
             this.name = data._source.name
             this.email = data._source.email
         }).catch(err => {
+            if (err.response.status === 401) {
+                store.setAuthenticate(false);
+                this.$router.push('/');
+            }
             this.showNotification(`Fetch failed : ${err.response.data.message}`)
             console.log(err.response.data.message)
         })
@@ -85,6 +90,10 @@ export default {
                 }, 3000)
 
             }).catch((err) => {
+                if (err.response.status === 401) {
+                    store.setAuthenticate(false);
+                    this.$router.push('/');
+                }
                 this.showNotification(`Update failed : ${err.response.data.message}`)
                 console.log(err.response.data.message)
             })

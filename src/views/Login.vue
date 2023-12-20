@@ -76,6 +76,7 @@ export default {
             localStorage.setItem('credentials', credentials);
           }
           store.setUser(response.data.user);
+          store.setAuthenticate(true);
           localStorage.setItem("timus-token", response.data.accessToken)
           response.status === 200 && this.$router.push('/home');
         })
